@@ -5,7 +5,7 @@ import { FileCheck2, ShieldCheck, Clock } from 'lucide-react';
 import { supabaseAdmin } from '@/lib/supabase/admin';
 import { hashToken, hashAgreementContent } from '@/lib/agreements';
 import { formatInr } from '@/lib/admin';
-import { CLAUSE_ORDER } from '@/lib/agreement-clauses';
+import { CLAUSE_ORDER, FOXI } from '@/lib/agreement-clauses';
 import SignatureForm from '@/components/admin/SignatureForm';
 
 export const metadata: Metadata = {
@@ -15,6 +15,16 @@ export const metadata: Metadata = {
 
 interface Props {
   params: Promise<{ token: string }>;
+}
+
+/** Day only — the meta row is a date line, not a timestamp. */
+function formatDay(iso: string): string {
+  return new Date(iso).toLocaleDateString('en-IN', {
+    day: '2-digit',
+    month: 'short',
+    year: 'numeric',
+    timeZone: 'Asia/Kolkata',
+  });
 }
 
 export default async function SignPage({ params }: Props) {
@@ -71,13 +81,14 @@ export default async function SignPage({ params }: Props) {
     <main className="min-h-screen bg-primary-50 py-8 sm:py-12">
       <div className="mx-auto max-w-3xl px-4 sm:px-6">
         {/* Letterhead */}
-        <header className="mb-6 flex flex-wrap items-start justify-between gap-4 border border-primary-200 bg-primary-900 p-6 sm:p-8">
+        <header className="flex flex-wrap items-start justify-between gap-4 border border-primary-200 bg-primary-900 p-6 sm:p-8">
           <div>
             <span className="font-display text-xl font-bold tracking-tight text-white">
               FOXI<span className="text-accent-500">.</span>
             </span>
-            <p className="mt-1 text-xs text-white/50">
-              Shop 4, Tech Plaza, Baner Road, Pune 411045
+            <p className="mt-1 text-xs text-white/50">{FOXI.address}</p>
+            <p className="text-xs text-white/50">
+              {FOXI.email} · {FOXI.phone}
             </p>
           </div>
           <div className="text-right">
@@ -85,6 +96,35 @@ export default async function SignPage({ params }: Props) {
             <p className="font-mono text-sm text-white">{agreement.reference}</p>
           </div>
         </header>
+
+        {/*
+          Meta row — the strip an invoice carries under its letterhead. Issued,
+          valid-until and amount-due at a glance, so the number the client cares
+          about is legible before they scroll into the line items.
+        */}
+        <div className="grid grid-cols-2 gap-px border-x border-b border-primary-200 bg-primary-200 sm:grid-cols-4">
+          {[
+            ['Issued', agreement.sent_at ? formatDay(agreement.sent_at) : formatDay(agreement.created_at)],
+            ['Valid until', agreement.expires_at ? formatDay(agreement.expires_at) : '—'],
+            ['Status', isSigned ? 'Signed' : isExpired ? 'Expired' : 'Awaiting signature'],
+            ['Total', formatInr(agreement.total_inr)],
+          ].map(([label, value], index) => (
+            <div key={label} className="bg-white px-4 py-3">
+              <p className="text-[10px] font-semibold uppercase tracking-widest text-primary-400">
+                {label}
+              </p>
+              <p
+                className={`mt-0.5 text-sm ${
+                  index === 3
+                    ? 'font-display font-bold text-primary-900'
+                    : 'text-primary-700'
+                }`}
+              >
+                {value}
+              </p>
+            </div>
+          ))}
+        </div>
 
         <div className="border border-t-0 border-primary-200 bg-white p-6 sm:p-10">
           {/* State banners */}
@@ -162,56 +202,70 @@ export default async function SignPage({ params }: Props) {
               What is included
             </h2>
 
-            <div className="mt-3 divide-y divide-primary-200 border-y border-primary-200">
-              {workItems.map((item, index) => (
-                <div key={index} className="flex items-start justify-between gap-4 py-3">
-                  <div className="min-w-0">
-                    <p className="text-sm font-medium text-primary-900">{item.label}</p>
-                    {item.detail && (
-                      <p className="mt-0.5 text-xs text-primary-500">{item.detail}</p>
-                    )}
-                    {item.qty > 1 && (
-                      <p className="mt-0.5 text-xs text-primary-400">
-                        {item.qty} × {formatInr(item.unit_inr)}
-                      </p>
-                    )}
-                  </div>
-                  <p className="shrink-0 text-sm text-primary-900">
-                    {formatInr(item.qty * item.unit_inr)}
-                  </p>
-                </div>
-              ))}
+            <div className="mt-3 overflow-x-auto">
+              <table className="w-full text-sm">
+                <thead className="bg-primary-50">
+                  <tr>
+                    <th className="px-3 py-2 text-left text-xs font-bold uppercase tracking-wide text-primary-700">
+                      Description
+                    </th>
+                    <th className="w-20 px-3 py-2 text-center text-xs font-bold uppercase tracking-wide text-primary-700">
+                      Qty
+                    </th>
+                    <th className="w-32 px-3 py-2 text-right text-xs font-bold uppercase tracking-wide text-primary-700">
+                      Amount
+                    </th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-primary-100">
+                  {workItems.map((item, index) => (
+                    <tr key={index}>
+                      <td className="px-3 py-2.5">
+                        <p className="font-medium text-primary-900">{item.label}</p>
+                        {item.detail && (
+                          <p className="mt-0.5 text-xs text-primary-500">{item.detail}</p>
+                        )}
+                      </td>
+                      <td className="px-3 py-2.5 text-center text-primary-900">{item.qty}</td>
+                      <td className="px-3 py-2.5 text-right text-primary-900">
+                        {formatInr(item.qty * item.unit_inr)}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             </div>
 
             {/* Totals */}
-            <div className="mt-4 space-y-1.5 text-sm">
-              <div className="flex justify-between text-primary-600">
-                <span>Subtotal</span>
-                <span>{formatInr(agreement.subtotal_inr)}</span>
-              </div>
-
-              {discountItems.map((item, index) => (
-                <div key={index} className="flex justify-between text-emerald-700">
-                  <span>{item.label}</span>
-                  <span>−{formatInr(item.qty * item.unit_inr)}</span>
-                </div>
-              ))}
-
-              {Number(agreement.tax_percent) > 0 && (
+            <div className="mt-4 flex justify-end">
+              <div className="w-full max-w-xs space-y-1.5 text-sm">
                 <div className="flex justify-between text-primary-600">
-                  <span>GST ({agreement.tax_percent}%)</span>
-                  <span>
-                    {formatInr(
-                      agreement.total_inr -
-                        (agreement.subtotal_inr - agreement.discount_inr)
-                    )}
-                  </span>
+                  <span>Subtotal</span>
+                  <span>{formatInr(agreement.subtotal_inr)}</span>
                 </div>
-              )}
 
-              <div className="flex justify-between border-t border-primary-200 pt-2 font-display text-lg font-bold text-primary-900">
-                <span>Total</span>
-                <span>{formatInr(agreement.total_inr)}</span>
+                {discountItems.map((item, index) => (
+                  <div key={index} className="flex justify-between text-emerald-700">
+                    <span>{item.label}</span>
+                    <span>−{formatInr(item.qty * item.unit_inr)}</span>
+                  </div>
+                ))}
+
+                {Number(agreement.tax_percent) > 0 && (
+                  <div className="flex justify-between text-primary-600">
+                    <span>GST ({agreement.tax_percent}%)</span>
+                    <span>
+                      {formatInr(
+                        agreement.total_inr - (agreement.subtotal_inr - agreement.discount_inr)
+                      )}
+                    </span>
+                  </div>
+                )}
+
+                <div className="flex justify-between border-t border-primary-900 pt-2 font-display text-base font-bold text-primary-900">
+                  <span>Total</span>
+                  <span>{formatInr(agreement.total_inr)}</span>
+                </div>
               </div>
             </div>
           </section>
@@ -222,27 +276,48 @@ export default async function SignPage({ params }: Props) {
               <h2 className="text-xs font-semibold uppercase tracking-widest text-primary-400">
                 Payment schedule
               </h2>
-              <div className="mt-3 grid gap-3 sm:grid-cols-2">
-                {installments.map((installment, index) => (
-                  <div
-                    key={index}
-                    className="border border-primary-200 p-4"
-                  >
-                    <p className="text-xs font-medium uppercase tracking-wide text-primary-500">
-                      {installment.label} · {installment.percent}%
-                    </p>
-                    <p className="mt-1 font-display text-lg font-bold text-primary-900">
-                      {formatInr(installment.amount_inr)}
-                    </p>
-                    <p className="mt-0.5 text-xs text-primary-500">{installment.due_note}</p>
-                  </div>
-                ))}
+              <div className="mt-3 overflow-x-auto">
+                <table className="w-full text-sm">
+                  <thead className="bg-primary-50">
+                    <tr>
+                      <th className="px-3 py-2 text-left text-xs font-bold uppercase tracking-wide text-primary-700">
+                        Stage
+                      </th>
+                      <th className="w-20 px-3 py-2 text-center text-xs font-bold uppercase tracking-wide text-primary-700">
+                        Share
+                      </th>
+                      <th className="w-32 px-3 py-2 text-right text-xs font-bold uppercase tracking-wide text-primary-700">
+                        Amount
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-primary-100">
+                    {installments.map((installment, index) => (
+                      <tr key={index}>
+                        <td className="px-3 py-2.5">
+                          <p className="font-medium text-primary-900">{installment.label}</p>
+                          {installment.due_note && (
+                            <p className="mt-0.5 text-xs text-primary-500">
+                              {installment.due_note}
+                            </p>
+                          )}
+                        </td>
+                        <td className="px-3 py-2.5 text-center text-primary-900">
+                          {installment.percent}%
+                        </td>
+                        <td className="px-3 py-2.5 text-right font-medium text-primary-900">
+                          {formatInr(installment.amount_inr)}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
               </div>
             </section>
           )}
 
           {/* Key terms at a glance */}
-          <section className="mt-8 grid gap-3 sm:grid-cols-3">
+          <section className="mt-8 grid gap-3 border-t border-primary-200 pt-8 sm:grid-cols-3">
             {[
               ['Delivery', `${agreement.delivery_days} days`],
               ['Support', `${agreement.support_months} month${agreement.support_months === 1 ? '' : 's'}`],

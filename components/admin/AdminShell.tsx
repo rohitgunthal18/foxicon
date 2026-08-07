@@ -188,13 +188,17 @@ export default function AdminShell({ adminName, adminRole, children }: Props) {
           ultrawide. Vertical padding is `py-5` rather than `lg:py-10` for the
           same reason: 80px of it was pushing the table toward the fold.
 
-          `flex flex-col` lets flex pages (the leads page) divide the height; `h-full`
-          is omitted deliberately so pages that are naturally short (dashboard, a
-          filtered-down list) don't hold open empty space, and pages that overflow
-          (a long dashboard to-do list before the viewport flex chain shipped) scroll
-          in `main` as they always did.
+          `min-h-full` is what closes the flex chain: `main` has a definite height,
+          so 100% here is a real number, and a page that says `flex-1` gets the
+          remainder instead of falling back to its content height. Without it the
+          leads table's `flex-1` resolved to nothing, the table grew to fit all
+          twenty rows, and you got two vertical scrollbars — the table's own and
+          `main`'s underneath it.
+
+          `min-` rather than `h-`: a page taller than the viewport (a long
+          dashboard) still grows and scrolls in `main`, exactly as before.
         */}
-        <div className="mx-auto flex max-w-7xl flex-col px-4 py-5 sm:px-6 lg:px-8 lg:py-6">
+        <div className="mx-auto flex min-h-full max-w-7xl flex-col px-4 py-5 sm:px-6 lg:px-8 lg:py-6">
           {children}
         </div>
       </main>
