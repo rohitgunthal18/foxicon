@@ -1,5 +1,6 @@
 import {
   ArrowRightLeft,
+  Bot,
   FileSignature,
   IndianRupee,
   PencilLine,
@@ -22,6 +23,7 @@ const KIND_ICON = {
   agreement_signed: FileSignature,
   payment_recorded: IndianRupee,
   field_update: PencilLine,
+  agent_call: Bot,
 } as const;
 
 type ActivityKind = keyof typeof KIND_ICON;
@@ -42,6 +44,29 @@ const FIELD_LABEL: Record<string, string> = {
   email: 'email',
   phone: 'phone',
 };
+
+/**
+ * Sarvam's call status -> what actually happened, in words.
+ *
+ * "no_answer" is a machine's way of saying it; the person reading the timeline
+ * wants to know whether to try again, so say so plainly.
+ */
+const AGENT_CALL_OUTCOME: Record<string, string> = {
+  initiated: 'dialling now',
+  connected: 'answered',
+  no_answer: 'no answer',
+  busy: 'line was busy',
+  failed: 'call failed',
+};
+
+/** 95 -> "1m 35s". Bare seconds stop being readable somewhere around a minute. */
+function formatDuration(seconds: number): string {
+  const whole = Math.round(seconds);
+  if (whole < 60) return `${whole}s`;
+  const minutes = Math.floor(whole / 60);
+  const rest = whole % 60;
+  return rest ? `${minutes}m ${rest}s` : `${minutes}m`;
+}
 
 function listFields(fields: string[]): string {
   const named = fields.map((field) => FIELD_LABEL[field] ?? field);
@@ -123,6 +148,24 @@ export default async function LeadTimeline({ leadId }: { leadId: string }) {
             case 'payment_recorded':
               summary = activity.body ?? 'Payment recorded';
               break;
+            /*
+              The voice agent writes its own summary into `body`, so that is
+              what leads the entry. The line above it says how the call went,
+              because a summary alone cannot tell you the customer never picked
+              up — an unanswered call has no summary at all.
+            */
+            case 'agent_call': {
+              const status = meta.call_status as string | undefined;
+              const seconds = meta.duration_seconds as number | undefined;
+              const heading =
+                status && status !== 'connected'
+                  ? `Voice agent called — ${AGENT_CALL_OUTCOME[status] ?? status}`
+                  : `Voice agent call${
+                      seconds ? ` — ${formatDuration(seconds)}` : ''
+                    }`;
+              summary = activity.body ? `${heading}\n\n${activity.body}` : heading;
+              break;
+            }
             default:
               summary = activity.body ?? '—';
           }

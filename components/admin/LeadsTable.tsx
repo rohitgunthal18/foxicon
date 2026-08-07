@@ -26,6 +26,7 @@ import {
   whatsappHref,
   type LeadStatus,
 } from '@/lib/admin-shared';
+import VoiceAgentButton from './VoiceAgentButton';
 
 const STATUS_OPTIONS: readonly LeadStatus[] = [...LEAD_STAGES, ...LEAD_DEAD_ENDS];
 
@@ -509,6 +510,21 @@ export default function LeadsTable({ leads }: Props) {
                         <StickyNote className="h-4 w-4" />
                         <span className="sr-only">Add note</span>
                       </button>
+                      {/*
+                        The voice agent. Only for a lead with a number — the
+                        route rejects the rest, so an icon there would be a tap
+                        that only ever returns an error.
+                      */}
+                      {lead.phone && (
+                        <VoiceAgentButton
+                          inline
+                          leadId={lead.id}
+                          leadName={lead.company || lead.name}
+                          leadCity={lead.city}
+                          leadRating={lead.rating}
+                          leadReviewCount={lead.review_count}
+                        />
+                      )}
                       {/*
                         `Eye`, not the `ChevronDown` that used to be here — a
                         downward chevron reads as "expand this row", and this

@@ -171,47 +171,16 @@ export function leadSourceLabel(source: string | null): string {
   return source ? (LEAD_SOURCE_LABEL[source] ?? source) : 'Unknown';
 }
 
-
 /* Phone numbers ------------------------------------------------------------ */
 
-/**
- * Strip a scraped phone number down to digits and give it a country code.
- *
- * The scraper writes Google's display format — `099757 15505`, spaces and all,
- * with a domestic trunk `0` in front. `tel:` tolerates that; `wa.me` does not,
- * and silently opens a "phone number shared via url is invalid" page instead.
- * So: drop non-digits, drop the trunk zero, assume India when no country code
- * is present (every row in the scrape is an Indian business).
- *
- * Returns null when there is nothing dialable, so callers can hide the button
- * rather than render one that goes nowhere.
- */
-export function normalisePhone(
-  phone: string | null,
-  defaultCountry = '91'
-): string | null {
-  if (!phone) return null;
+/*
+  Normalisation itself lives in `lib/phone.ts` — one definition of "what is a
+  valid Indian mobile", shared by the admin UI here and by the Sarvam outbound
+  route, which rejects anything that is not E.164.
+*/
+import { toE164, toWhatsApp } from './phone';
 
-  const hasPlus = phone.trimStart().startsWith('+');
-  let digits = phone.replace(/\D/g, '');
-  if (!digits) return null;
-
-  if (!hasPlus) {
-    // Domestic trunk prefix: `0 99757 15505` -> `99757 15505`.
-    if (digits.startsWith('0')) digits = digits.replace(/^0+/, '');
-    // A bare 10-digit subscriber number needs the country code prepended.
-    if (digits.length === 10) digits = defaultCountry + digits;
-  }
-
-  // Shortest real E.164 number is 8 digits; longest is 15.
-  return digits.length >= 8 && digits.length <= 15 ? digits : null;
-}
-
-/** `tel:` href, or null when the number is unusable. */
-export function telHref(phone: string | null): string | null {
-  const digits = normalisePhone(phone);
-  return digits ? `tel:+${digits}` : null;
-}
+export { toE164, toTelHref as telHref } from './phone';
 
 /**
  * `wa.me` href, optionally pre-filling the first message.
@@ -223,7 +192,7 @@ export function whatsappHref(
   phone: string | null,
   message?: string
 ): string | null {
-  const digits = normalisePhone(phone);
+  const digits = toWhatsApp(phone);
   if (!digits) return null;
   const query = message ? `?text=${encodeURIComponent(message)}` : '';
   return `https://wa.me/${digits}${query}`;

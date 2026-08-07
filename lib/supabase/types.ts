@@ -39,6 +39,44 @@ export type Database = {
   }
   public: {
     Tables: {
+      admin_settings: {
+        Row: {
+          category: string
+          id: string
+          key: string
+          metadata: Json
+          updated_at: string
+          updated_by: string | null
+          value: string
+        }
+        Insert: {
+          category?: string
+          id?: string
+          key: string
+          metadata?: Json
+          updated_at?: string
+          updated_by?: string | null
+          value: string
+        }
+        Update: {
+          category?: string
+          id?: string
+          key?: string
+          metadata?: Json
+          updated_at?: string
+          updated_by?: string | null
+          value?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "admin_settings_updated_by_fkey"
+            columns: ["updated_by"]
+            isOneToOne: false
+            referencedRelation: "admin_users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       admin_users: {
         Row: {
           created_at: string
@@ -71,6 +109,68 @@ export type Database = {
           updated_at?: string
         }
         Relationships: []
+      }
+      agent_calls: {
+        Row: {
+          agent_variables: Json
+          attempt_id: string
+          call_status: string
+          disposition: string | null
+          duration_seconds: number | null
+          ended_at: string | null
+          id: string
+          interaction_id: string | null
+          language_name: string | null
+          lead_id: string
+          meta: Json
+          mode: string
+          started_at: string
+          summary: string | null
+          transcript: Json
+        }
+        Insert: {
+          agent_variables?: Json
+          attempt_id: string
+          call_status: string
+          disposition?: string | null
+          duration_seconds?: number | null
+          ended_at?: string | null
+          id?: string
+          interaction_id?: string | null
+          language_name?: string | null
+          lead_id: string
+          meta?: Json
+          mode?: string
+          started_at?: string
+          summary?: string | null
+          transcript?: Json
+        }
+        Update: {
+          agent_variables?: Json
+          attempt_id?: string
+          call_status?: string
+          disposition?: string | null
+          duration_seconds?: number | null
+          ended_at?: string | null
+          id?: string
+          interaction_id?: string | null
+          language_name?: string | null
+          lead_id?: string
+          meta?: Json
+          mode?: string
+          started_at?: string
+          summary?: string | null
+          transcript?: Json
+        }
+        Relationships: [
+          {
+            foreignKeyName: "agent_calls_lead_id_fkey"
+            columns: ["lead_id"]
+            isOneToOne: false
+            referencedRelation: "leads"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       agreement_items: {
         Row: {
@@ -429,67 +529,97 @@ export type Database = {
       }
       leads: {
         Row: {
+          address: string | null
           admin_notes: string | null
+          category: string | null
+          city: string | null
           company: string | null
           created_at: string
           email: string | null
           id: string
           ip_hash: string | null
           last_contacted_at: string | null
+          lead_score: number | null
+          maps_url: string | null
           message: string | null
           name: string
           next_follow_up_at: string | null
+          niche: string | null
           owner_id: string | null
           phone: string | null
+          pitch_angle: string | null
           priority: Database["public"]["Enums"]["lead_priority"]
+          rating: number | null
+          review_count: number | null
           service_slug: string | null
           source: Database["public"]["Enums"]["lead_source"]
           status: Database["public"]["Enums"]["lead_status"]
           updated_at: string
           user_agent: string | null
           value_inr: number | null
+          website: string | null
         }
         Insert: {
+          address?: string | null
           admin_notes?: string | null
+          category?: string | null
+          city?: string | null
           company?: string | null
           created_at?: string
           email?: string | null
           id?: string
           ip_hash?: string | null
           last_contacted_at?: string | null
+          lead_score?: number | null
+          maps_url?: string | null
           message?: string | null
           name: string
           next_follow_up_at?: string | null
+          niche?: string | null
           owner_id?: string | null
           phone?: string | null
+          pitch_angle?: string | null
           priority?: Database["public"]["Enums"]["lead_priority"]
+          rating?: number | null
+          review_count?: number | null
           service_slug?: string | null
           source?: Database["public"]["Enums"]["lead_source"]
           status?: Database["public"]["Enums"]["lead_status"]
           updated_at?: string
           user_agent?: string | null
           value_inr?: number | null
+          website?: string | null
         }
         Update: {
+          address?: string | null
           admin_notes?: string | null
+          category?: string | null
+          city?: string | null
           company?: string | null
           created_at?: string
           email?: string | null
           id?: string
           ip_hash?: string | null
           last_contacted_at?: string | null
+          lead_score?: number | null
+          maps_url?: string | null
           message?: string | null
           name?: string
           next_follow_up_at?: string | null
+          niche?: string | null
           owner_id?: string | null
           phone?: string | null
+          pitch_angle?: string | null
           priority?: Database["public"]["Enums"]["lead_priority"]
+          rating?: number | null
+          review_count?: number | null
           service_slug?: string | null
           source?: Database["public"]["Enums"]["lead_source"]
           status?: Database["public"]["Enums"]["lead_status"]
           updated_at?: string
           user_agent?: string | null
           value_inr?: number | null
+          website?: string | null
         }
         Relationships: [
           {
@@ -804,11 +934,12 @@ export type Database = {
         | "agreement_signed"
         | "payment_recorded"
         | "field_update"
+        | "agent_call"
       admin_role: "owner" | "admin" | "staff"
       agreement_item_kind: "service" | "addon" | "discount"
       agreement_status: "draft" | "sent" | "signed" | "voided"
       lead_priority: "low" | "normal" | "high"
-      lead_source: "contact_form" | "quote_modal"
+      lead_source: "contact_form" | "quote_modal" | "manual" | "imported"
       lead_status:
         | "new"
         | "contacted"
@@ -959,12 +1090,13 @@ export const Constants = {
         "agreement_signed",
         "payment_recorded",
         "field_update",
+        "agent_call",
       ],
       admin_role: ["owner", "admin", "staff"],
       agreement_item_kind: ["service", "addon", "discount"],
       agreement_status: ["draft", "sent", "signed", "voided"],
       lead_priority: ["low", "normal", "high"],
-      lead_source: ["contact_form", "quote_modal"],
+      lead_source: ["contact_form", "quote_modal", "manual", "imported"],
       lead_status: [
         "new",
         "contacted",

@@ -1,14 +1,26 @@
 'use client';
 
+import { usePathname, useRouter } from 'next/navigation';
+import Link from 'next/link';
 import Logo from './Logo';
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
+  const pathname = usePathname();
+  const router = useRouter();
 
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id);
     if (element) {
       element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
+
+  const handleNav = (id: string) => {
+    if (pathname === '/') {
+      scrollToSection(id);
+    } else {
+      router.push(`/#${id}`);
     }
   };
 
@@ -45,13 +57,24 @@ export default function Footer() {
                 </svg>
               </a>
               <a
-                href="#"
+                href="/"
                 className="w-10 h-10 border border-primary-700 flex items-center justify-center hover:border-accent-600 hover:bg-accent-600 transition-all duration-300"
                 aria-label="Website"
               >
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
-                  <circle cx="12" cy="12" r="10"/>
-                  <path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+                <svg
+                  width="20"
+                  height="15"
+                  viewBox="0 0 44 32"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="text-white"
+                >
+                  <rect x="0.5" y="0.5" width="43" height="31" stroke="currentColor" strokeWidth="1.5" />
+                  <line x1="7"    y1="21.5" x2="13"   y2="10.5" stroke="currentColor" strokeWidth="2.5" strokeLinecap="square" />
+                  <line x1="11.5" y1="24.5" x2="20.5" y2="7.5"  stroke="currentColor" strokeWidth="2.5" strokeLinecap="square" />
+                  <line x1="16"   y1="27"   x2="28"   y2="5"     stroke="#3b82f6" strokeWidth="2.5" strokeLinecap="square" />
+                  <line x1="23.5" y1="24.5" x2="32.5" y2="7.5"  stroke="currentColor" strokeWidth="2.5" strokeLinecap="square" />
+                  <line x1="31"   y1="21.5" x2="37"   y2="10.5" stroke="currentColor" strokeWidth="2.5" strokeLinecap="square" />
                 </svg>
               </a>
             </div>
@@ -63,7 +86,7 @@ export default function Footer() {
             <ul className="space-y-3 text-primary-400 text-sm">
               <li>
                 <button
-                  onClick={() => scrollToSection('services')}
+                  onClick={() => handleNav('services')}
                   className="hover:text-white transition-colors duration-200"
                 >
                   Website Design
@@ -71,7 +94,7 @@ export default function Footer() {
               </li>
               <li>
                 <button
-                  onClick={() => scrollToSection('services')}
+                  onClick={() => handleNav('services')}
                   className="hover:text-white transition-colors duration-200"
                 >
                   Google Maps Setup
@@ -79,7 +102,7 @@ export default function Footer() {
               </li>
               <li>
                 <button
-                  onClick={() => scrollToSection('services')}
+                  onClick={() => handleNav('services')}
                   className="hover:text-white transition-colors duration-200"
                 >
                   Instagram Setup
@@ -87,7 +110,7 @@ export default function Footer() {
               </li>
               <li>
                 <button
-                  onClick={() => scrollToSection('services')}
+                  onClick={() => handleNav('services')}
                   className="hover:text-white transition-colors duration-200"
                 >
                   Meta &amp; Google Ads
@@ -102,25 +125,25 @@ export default function Footer() {
             <ul className="space-y-3 text-primary-400 text-sm">
               <li>
                 <button
-                  onClick={() => scrollToSection('about')}
+                  onClick={() => handleNav('about')}
                   className="hover:text-white transition-colors duration-200"
                 >
                   About Us
                 </button>
               </li>
               <li>
-                <a href="#" className="hover:text-white transition-colors duration-200">
+                <Link href="/careers" className="hover:text-white transition-colors duration-200">
                   Careers
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#" className="hover:text-white transition-colors duration-200">
+                <Link href="/blog" className="hover:text-white transition-colors duration-200">
                   Blog
-                </a>
+                </Link>
               </li>
               <li>
                 <button
-                  onClick={() => scrollToSection('contact')}
+                  onClick={() => handleNav('contact')}
                   className="hover:text-white transition-colors duration-200"
                 >
                   Contact
@@ -134,24 +157,24 @@ export default function Footer() {
             <h4 className="font-display text-lg font-bold mb-4">Legal</h4>
             <ul className="space-y-3 text-primary-400 text-sm">
               <li>
-                <a href="#" className="hover:text-white transition-colors duration-200">
+                <Link href="/privacy-policy" className="hover:text-white transition-colors duration-200">
                   Privacy Policy
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#" className="hover:text-white transition-colors duration-200">
+                <Link href="/terms-of-service" className="hover:text-white transition-colors duration-200">
                   Terms of Service
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#" className="hover:text-white transition-colors duration-200">
+                <Link href="/refund-policy" className="hover:text-white transition-colors duration-200">
                   Refund Policy
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#" className="hover:text-white transition-colors duration-200">
+                <Link href="/support" className="hover:text-white transition-colors duration-200">
                   Support
-                </a>
+                </Link>
               </li>
             </ul>
           </div>

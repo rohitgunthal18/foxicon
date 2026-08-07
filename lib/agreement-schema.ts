@@ -1,5 +1,7 @@
 import { z } from 'zod';
 
+import { PHONE_SHAPE } from './phone';
+
 /**
  * The agreement payload, shared by create (POST) and edit (PATCH).
  *
@@ -30,7 +32,17 @@ export const agreementSchema = z.object({
   lead_id: z.uuid().nullable().optional(),
   client_name: z.string().trim().min(1).max(160),
   client_email: z.union([z.email(), z.literal('')]).optional(),
-  client_phone: z.string().max(24).optional(),
+  /*
+    Shape-checked like the lead intake. Seeded from `leads.phone` when an
+    agreement is drafted off a lead, so it inherits whatever the scrape stored;
+    the format is left alone and normalised at the point of use.
+  */
+  client_phone: z
+    .union([
+      z.literal(''),
+      z.string().trim().min(6).max(24).regex(PHONE_SHAPE, 'Enter a valid phone number'),
+    ])
+    .optional(),
   client_company: z.string().max(160).optional(),
   client_address: z.string().max(400).optional(),
   plan_slug: z.string().max(60).nullable().optional(),

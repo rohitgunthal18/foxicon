@@ -7,6 +7,7 @@ import {
   LayoutDashboard,
   Users,
   FileSignature,
+  Settings,
   Menu,
   X,
   LogOut,
@@ -14,16 +15,11 @@ import {
 
 import Logo from '@/components/Logo';
 
-/**
- * Only routes that exist.
- *
- * Reviews and Settings were listed here before either page was built, so two of
- * the five sidebar items 404'd. They go back in when there is something to open.
- */
 const NAV = [
   { href: '/admin', label: 'Dashboard', icon: LayoutDashboard, exact: true },
   { href: '/admin/leads', label: 'Leads', icon: Users },
   { href: '/admin/agreements', label: 'Agreements', icon: FileSignature },
+  { href: '/admin/settings', label: 'Settings', icon: Settings },
 ];
 
 interface Props {

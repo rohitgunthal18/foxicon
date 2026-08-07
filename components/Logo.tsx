@@ -30,7 +30,7 @@ export default function Logo({ invert = false }: LogoProps) {
         {/* Line 2 — medium */}
         <line x1="11.5" y1="24.5" x2="20.5" y2="7.5"  stroke={line} strokeWidth="1.5" strokeLinecap="square" />
         {/* Line 3 — middle, longest */}
-        <line x1="16"   y1="27"   x2="28"   y2="5"     stroke={line} strokeWidth="1.5" strokeLinecap="square" />
+        <line x1="16"   y1="27"   x2="28"   y2="5"     stroke="#3b82f6" strokeWidth="1.75" strokeLinecap="square" />
         {/* Line 4 — medium */}
         <line x1="23.5" y1="24.5" x2="32.5" y2="7.5"  stroke={line} strokeWidth="1.5" strokeLinecap="square" />
         {/* Line 5 — rightmost, shortest */}

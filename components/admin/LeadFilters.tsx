@@ -11,6 +11,7 @@ import {
   LEAD_STATUS_SHORT,
   type LeadStatus,
 } from '@/lib/admin-shared';
+import { phoneMatches } from '@/lib/phone';
 import type { LeadCardData } from './LeadBoard';
 import LeadBoard from './LeadBoard';
 import LeadsChart from './LeadsChart';
@@ -53,10 +54,15 @@ export default function LeadFilters({ leads, view }: Props) {
   const searched = useMemo(() => {
     const needle = query.trim().toLowerCase();
     if (!needle) return leads;
-    return leads.filter((lead) =>
-      [lead.name, lead.company, lead.email, lead.phone, lead.city]
-        .filter(Boolean)
-        .some((field) => field!.toLowerCase().includes(needle))
+    return leads.filter(
+      (lead) =>
+        [lead.name, lead.company, lead.email, lead.city]
+          .filter(Boolean)
+          .some((field) => field!.toLowerCase().includes(needle)) ||
+        /* Phone gets its own comparison: the stored value carries the
+           scraper's trunk zero and spacing, so a substring test never
+           matched the digits an admin actually types. */
+        phoneMatches(lead.phone, needle)
     );
   }, [leads, query]);
 

@@ -8,13 +8,34 @@ import {
   LEAD_STAGES,
   type LeadStatus,
 } from '@/lib/admin-shared';
+import { PHONE_SHAPE } from '@/lib/phone';
 import type { TablesInsert, TablesUpdate } from '@/lib/supabase/types';
+
+/*
+  Shape-checked, not dialability-checked.
+
+  `phone` used to be `z.string().max(24)`, which accepted `abc` and `!!!!` as
+  readily as a number — and the first sign of trouble was the voice agent's 422
+  at dial time, long after whoever typed it had moved on. The stored format is
+  still whatever was typed (`094217 96468` included); `lib/phone.ts` normalises
+  at the point of use.
+*/
+const phoneField = z
+  .union([
+    z.literal(''),
+    z.null(),
+    z.string().trim().min(6).max(24).regex(PHONE_SHAPE, 'Enter a valid phone number'),
+  ])
+  /* Blank means "no number", not the empty string — the column's own check
+     constraint requires 6-24 characters when the value is not null. */
+  .transform((value) => (value === '' ? null : value))
+  .optional();
 
 const postSchema = z.object({
   name: z.string().trim().min(1).max(250),
   company: z.string().max(160).nullable().optional(),
   email: z.union([z.email(), z.literal(''), z.null()]).optional(),
-  phone: z.string().max(24).nullable().optional(),
+  phone: phoneField,
   service_slug: z.string().max(60).nullable().optional(),
   priority: z.enum(['low', 'normal', 'high']).optional(),
   value_inr: z.number().int().min(0).nullable().optional(),
@@ -117,7 +138,7 @@ const patchSchema = z.object({
   name: z.string().trim().min(1).max(250).optional(),
   company: z.string().max(160).nullable().optional(),
   email: z.union([z.email(), z.null()]).optional(),
-  phone: z.string().max(24).nullable().optional(),
+  phone: phoneField,
 });
 
 /**

@@ -28,6 +28,8 @@ import {
 import LeadTimeline from '@/components/admin/LeadTimeline';
 import LeadDetailActions from '@/components/admin/LeadDetailActions';
 import LeadEditor from '@/components/admin/LeadEditor';
+import VoiceAgentButton from '@/components/admin/VoiceAgentButton';
+import CallHistoryPanel from '@/components/admin/CallHistoryPanel';
 
 interface Props {
   params: Promise<{ id: string }>;
@@ -77,6 +79,15 @@ export default async function LeadDetailPage({ params }: Props) {
     .from('leads')
     .select('id, name')
     .order('created_at', { ascending: false });
+
+  // Fetch all agent call records for this lead (newest first)
+  const { data: agentCalls } = await supabaseAdmin
+    .from('agent_calls')
+    .select(
+      'id, attempt_id, call_status, language_name, duration_seconds, summary, disposition, transcript, agent_variables, meta, started_at, ended_at'
+    )
+    .eq('lead_id', lead.id)
+    .order('started_at', { ascending: false });
 
   const all = (neighbors ?? []).map((row) => row.id);
   const currentIndex = all.indexOf(lead.id);
@@ -244,10 +255,15 @@ export default async function LeadDetailPage({ params }: Props) {
                 <div className="min-w-0">
                   <dt className="text-xs text-primary-500">Phone</dt>
                   <dd className="text-sm text-primary-900">
-                    {lead.phone ? (
-                      <a href={`tel:${lead.phone}`} className="hover:text-accent-600">
+                    {tel ? (
+                      <a href={tel} className="hover:text-accent-600">
                         {lead.phone}
                       </a>
+                    ) : lead.phone ? (
+                      /* Stored but undialable — show it, do not link it. */
+                      <span title="Not a valid Indian mobile number">
+                        {lead.phone}
+                      </span>
                     ) : (
                       <span className="text-primary-400">Not provided</span>
                     )}
@@ -414,6 +430,9 @@ export default async function LeadDetailPage({ params }: Props) {
 
           {/* Timeline */}
           <LeadTimeline leadId={lead.id} />
+
+          {/* Call History — all AI agent calls with summaries and transcripts */}
+          <CallHistoryPanel calls={(agentCalls ?? []) as Parameters<typeof CallHistoryPanel>[0]['calls']} />
         </div>
 
         {/* Right: quick actions */}
@@ -447,6 +466,21 @@ export default async function LeadDetailPage({ params }: Props) {
                   <Phone aria-hidden className="h-4 w-4" />
                   Call {lead.phone}
                 </a>
+              )}
+
+              {/*
+                The agent call goes above WhatsApp and Maps — it is the reason
+                this lead was dialled at all. The button needs the same fields
+                the agent reads, and only the parts that exist are shown.
+              */}
+              {lead.phone && (
+                <VoiceAgentButton
+                  leadId={lead.id}
+                  leadName={lead.company || lead.name}
+                  leadCity={scraped.city}
+                  leadRating={scraped.rating}
+                  leadReviewCount={scraped.review_count}
+                />
               )}
 
               {whatsapp && (

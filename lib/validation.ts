@@ -1,5 +1,7 @@
 import { z } from 'zod';
 
+import { PHONE_SHAPE } from './phone';
+
 /** Service slugs are validated against the DB at insert time by a foreign key. */
 const optionalText = (max: number) =>
   z
@@ -27,7 +29,7 @@ export const leadSchema = z
           .trim()
           .min(6, 'Phone number looks too short')
           .max(24)
-          .regex(/^[+\d][\d\s()-]*$/, 'Please enter a valid phone number'),
+          .regex(PHONE_SHAPE, 'Please enter a valid phone number'),
       ])
       .transform((v) => (v === '' ? null : v))
       .nullable()
