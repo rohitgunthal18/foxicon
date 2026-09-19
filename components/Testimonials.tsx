@@ -71,7 +71,7 @@ function ReviewCard({ testimonial, index, isInView }: ReviewCardProps) {
     >
       {/* Rating row */}
       <div className="flex items-center justify-between gap-4 mb-4">
-        <div className="flex gap-1" aria-label="Rated 5 out of 5">
+        <div className="flex gap-1" role="img" aria-label="Rated 5 out of 5">
           {[...Array(5)].map((_, i) => (
             <Star key={i} className="w-4 h-4 text-accent-600 fill-current" />
           ))}

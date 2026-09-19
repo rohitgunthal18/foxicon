@@ -91,7 +91,7 @@ export default function Footer() {
 
           {/* Services */}
           <div>
-            <h4 className="font-display text-lg font-bold mb-4">Services</h4>
+            <h3 className="font-display text-lg font-bold mb-4">Services</h3>
             <ul className="space-y-3 text-primary-400 text-sm">
               <li>
                 <Link
@@ -138,7 +138,7 @@ export default function Footer() {
 
           {/* Company */}
           <div>
-            <h4 className="font-display text-lg font-bold mb-4">Company</h4>
+            <h3 className="font-display text-lg font-bold mb-4">Company</h3>
             <ul className="space-y-3 text-primary-400 text-sm">
               <li>
                 <Link
@@ -179,7 +179,7 @@ export default function Footer() {
 
           {/* Legal */}
           <div>
-            <h4 className="font-display text-lg font-bold mb-4">Legal</h4>
+            <h3 className="font-display text-lg font-bold mb-4">Legal</h3>
             <ul className="space-y-3 text-primary-400 text-sm">
               <li>
                 <Link href="/privacy-policy" className="hover:text-white transition-colors duration-200">

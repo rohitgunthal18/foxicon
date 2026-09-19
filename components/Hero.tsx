@@ -31,12 +31,7 @@ export default function Hero() {
       />
 
       {/* Full-height hero image — 80% width on mobile as bg, 50% split on desktop */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 1, delay: 0.4, ease: 'easeOut' }}
-        className="absolute top-0 right-0 bottom-0 w-[80%] lg:w-1/2 opacity-[0.08] lg:opacity-100 pointer-events-none lg:pointer-events-auto"
-      >
+      <div className="absolute top-0 right-0 bottom-0 w-[80%] lg:w-1/2 opacity-[0.08] lg:opacity-100 pointer-events-none lg:pointer-events-auto">
         <Image
           src="/datacenter4.webp"
           alt="Modern business website designed by Foxi Tech"
@@ -47,7 +42,7 @@ export default function Hero() {
         />
         {/* Soft fade into white on the left/mobile edge */}
         <div className="absolute inset-y-0 left-0 w-full lg:w-32 bg-gradient-to-r from-white via-white/90 lg:via-transparent to-transparent lg:to-transparent" />
-      </motion.div>
+      </div>
 
       {/* Content — left half */}
       <div className="max-w-[1400px] mx-auto px-4 lg:px-12 pt-28 pb-16 lg:py-32 w-full relative z-10">
