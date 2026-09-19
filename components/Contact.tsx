@@ -117,7 +117,7 @@ export default function Contact() {
                   </div>
                   <div>
                     <p className="text-sm text-primary-600 mb-1">Email</p>
-                    <p className="text-primary-950 font-medium">contact.foxitech@gmail.com</p>
+                    <p className="text-primary-950 font-medium">contact@foxitech.in</p>
                   </div>
                 </motion.div>
 

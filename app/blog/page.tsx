@@ -2,7 +2,7 @@ import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 
 export const metadata = {
-  title: 'Insights & Blog | FOXI TECH',
+  title: 'Insights & Blog | Foxi Tech',
   description: 'Digital growth guides, Local SEO strategies, and Google Maps tips for dental clinics and local businesses.',
 };
 
@@ -39,7 +39,7 @@ export default function Blog() {
       <section className="bg-primary-950 text-white pt-28 pb-16 lg:pt-36 lg:pb-24">
         <div className="max-w-[1400px] mx-auto px-4 lg:px-12">
           <span className="text-accent-500 font-display text-sm font-semibold tracking-wider uppercase mb-3 block">
-            FOXI Insights
+            Foxi Tech Insights
           </span>
           <h1 className="font-display text-4xl lg:text-5xl font-bold tracking-tight">
             Our Blog &amp; Guides

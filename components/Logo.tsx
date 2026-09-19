@@ -39,8 +39,8 @@ export default function Logo({ invert = false }: LogoProps) {
 
       {/* Wordmark */}
       <span className="font-display text-xl font-bold tracking-tight leading-none">
-        <span style={{ color: nameA }}>FOXI</span>
-        <span style={{ color: nameB }}> TECH</span>
+        <span style={{ color: nameA }}>Foxi</span>
+        <span style={{ color: nameB }}> Tech</span>
       </span>
     </div>
   );

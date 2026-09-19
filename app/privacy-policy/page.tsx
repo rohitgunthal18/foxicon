@@ -2,8 +2,8 @@ import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 
 export const metadata = {
-  title: 'Privacy Policy | FOXI TECH',
-  description: 'Learn how FOXI TECH collects, uses, and protects your business and personal information.',
+  title: 'Privacy Policy | Foxi Tech',
+  description: 'Learn how Foxi Tech collects, uses, and protects your business and personal information.',
 };
 
 export default function PrivacyPolicy() {

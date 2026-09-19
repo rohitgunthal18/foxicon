@@ -2,8 +2,8 @@ import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 
 export const metadata = {
-  title: 'Terms of Service | FOXI TECH',
-  description: 'Understand the terms and conditions for utilizing web development and ads services from FOXI TECH.',
+  title: 'Terms of Service | Foxi Tech',
+  description: 'Understand the terms and conditions for utilizing web development and ads services from Foxi Tech.',
 };
 
 export default function TermsOfService() {
@@ -21,7 +21,7 @@ export default function TermsOfService() {
             Terms of Service
           </h1>
           <p className="mt-4 text-primary-300 text-base lg:text-lg max-w-2xl leading-relaxed">
-            Effective date: August 7, 2026. These terms govern the development, hosting, and ad management services provided by FOXI TECH.
+            Effective date: August 7, 2026. These terms govern the development, hosting, and ad management services provided by Foxi Tech.
           </p>
         </div>
       </section>
@@ -33,7 +33,7 @@ export default function TermsOfService() {
             <div>
               <h2 className="font-display text-2xl font-bold text-primary-950 mb-3">1. Scope of Services</h2>
               <p className="text-primary-700 leading-relaxed">
-                FOXI TECH provides design and development services for:
+                Foxi Tech provides design and development services for:
               </p>
               <ul className="list-disc list-inside mt-2 space-y-1 text-primary-700">
                 <li>Single Page, Static, and Dynamic website systems.</li>

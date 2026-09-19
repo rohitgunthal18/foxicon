@@ -2,7 +2,7 @@ import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 
 export const metadata = {
-  title: 'Refund Policy | FOXI TECH',
+  title: 'Refund Policy | Foxi Tech',
   description: 'Review our transparent refund policy and satisfaction guarantees for all digital products and services.',
 };
 
@@ -45,7 +45,7 @@ export default function RefundPolicy() {
             <div>
               <h2 className="font-display text-2xl font-bold text-primary-950 mb-3">2. Marketing and Ad Management</h2>
               <p className="text-primary-700 leading-relaxed">
-                Fees for advertising setup, SEO optimization, and campaign launch services are non-refundable once configuration has begun. Ad spend paid directly to platforms like Google Ads or Meta is completely managed by those systems and is entirely non-refundable by FOXI TECH.
+                Fees for advertising setup, SEO optimization, and campaign launch services are non-refundable once configuration has begun. Ad spend paid directly to platforms like Google Ads or Meta is completely managed by those systems and is entirely non-refundable by Foxi Tech.
               </p>
             </div>
 

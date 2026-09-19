@@ -41,8 +41,8 @@ export const CLAUSE_KEYS: readonly string[] = [
  * names and two different email addresses before this existed.
  */
 export const FOXI = {
-  name: 'FOXI TECH',
+  name: 'Foxi Tech',
   address: 'Shop 4, Tech Plaza, Baner Road, Pune, Maharashtra 411045',
-  email: 'contact.foxitech@gmail.com',
+  email: 'contact@foxitech.in',
   phone: '+91 72186 16190',
 } as const;

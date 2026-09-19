@@ -151,9 +151,9 @@ const AI_CHATBOT_OFFER =
   'Free AI chatbot on your website (worth ₹10,000) — books appointments, answers patient questions, and works 24/7 even when your clinic is closed. LIMITED TIME offer, available only this month.';
 
 const CREDENTIALS =
-  'FOXI TECH is a web design and marketing agency in Pune. We have put 120+ clinics and businesses online. Rated 4.9 out of 5 on Google from 120+ reviews.';
+  'Foxi Tech is a web design and marketing agency in Pune. We have put 120+ clinics and businesses online. Rated 4.9 out of 5 on Google from 120+ reviews.';
 
-const CONTACT = 'FOXI TECH, Pune. Phone: +91 72186 16190. Website: www.foxitech.in';
+const CONTACT = 'Foxi Tech, Pune. Phone: +91 72186 16190. Website: www.foxitech.in. Email: contact@foxitech.in';
 
 // ─────────────────────────────────────────────────────────────────────────────
 // 1. System prompt

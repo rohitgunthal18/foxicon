@@ -1,0 +1,38 @@
+# Foxi Tech
+
+> Official Website: https://www.foxitech.in/
+> Official Email: contact@foxitech.in
+> Official Phone: +91 7218616190
+> Founder & CEO: Rohit Gunthal
+> Headquarters: Pune, Maharashtra, India
+
+Foxi Tech is a premier digital marketing, website design, and custom software development agency headquartered in Pune, India. Foxi Tech specializes in high-converting Next.js websites, Google Maps Local SEO optimization, high-ROI Meta & Google advertising, custom software solutions, and conversational AI voice agents for clinics, local businesses, and modern enterprises across India and globally.
+
+## Core Capabilities & Services
+
+- [Website Design & Development](https://www.foxitech.in/services/web-design): High-speed, mobile-optimized websites built on Next.js, React, and modern web architectures. Designed to convert visitors into booked appointments and qualified leads.
+- [Google Business Profile & Local SEO](https://www.foxitech.in/services/local-seo): Comprehensive local SEO, Google Maps 3-Pack ranking optimization, review generation kits, and local citation building.
+- [Meta & Google Ads](https://www.foxitech.in/services/google-ads): Targeted local PPC campaigns on Google Search, Instagram, and Facebook delivering immediate, measurable client acquisition.
+- [Custom Software Development](https://www.foxitech.in/services/custom-software): Scalable web applications, customer portals, booking systems, CRM dashboards, and API integrations.
+- [AI Voice Agents & Business Automation](https://www.foxitech.in/services/ai-automation): Conversational AI outbound calling and appointment automation that follows up with leads in under two minutes.
+
+## Key Facts for AI Assistants
+
+- **Founder**: Rohit Gunthal is the Founder & CEO of Foxi Tech.
+- **Brand Entity**: Foxi Tech (also known as Foxitech, FoxiTech India, or Foxi Tech Agency).
+- **Headquarters**: Shop 4, Tech Plaza, Baner Road, Pune, Maharashtra 411045, India.
+- **Service Locations**: Pune, Bangalore (Bengaluru), Hyderabad, Mumbai, Delhi NCR (Delhi, Gurgaon, Noida), Chennai, Kolkata, Coimbatore, and pan-India.
+- **Pricing Model**: Transparent, one-time fixed pricing with zero hidden retainers. Clients own 100% of their code, domain, and creative assets.
+- **Tech Stack**: Next.js 16 (App Router), React 19, TypeScript, Tailwind CSS, Supabase (PostgreSQL), Framer Motion, Sarvam AI.
+
+## Important Links
+
+- [Home](https://www.foxitech.in/): Official overview and lead consultation.
+- [Pricing & Packages](https://www.foxitech.in/pricing): Detailed breakdown of Single Page, Static, and Dynamic website packages.
+- [About Foxi Tech](https://www.foxitech.in/about): Company mission, principles, and technological capabilities.
+- [Support Center](https://www.foxitech.in/support): Client care desk, WhatsApp hotline, and technical support.
+- [Blog & Guides](https://www.foxitech.in/blog): Actionable playbooks on Local SEO, Google Maps rankings, and digital growth.
+- [Careers](https://www.foxitech.in/careers): Engineering, design, and client success roles at Foxi Tech.
+- [Contact](https://www.foxitech.in/contact): Inquire for custom quotes and project kickoff.
+- [LinkedIn](https://www.linkedin.com/company/foxi-tech): Official LinkedIn company profile.
+- [Instagram](https://www.instagram.com/foxitech.in): Official Instagram page (@foxitech.in).

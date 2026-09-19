@@ -2,7 +2,7 @@ import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 
 export const metadata = {
-  title: 'Support Center | FOXI TECH',
+  title: 'Support Center | Foxi Tech',
   description: 'Reach our 24/7 client support desk, submit a ticket, or schedule a call with our technical team.',
 };
 

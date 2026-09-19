@@ -189,8 +189,8 @@ export default async function SignPage({ params }: Props) {
                 Prepared by
               </dt>
               <dd className="mt-1 text-sm text-primary-900">
-                FOXI TECH
-                <span className="block text-xs text-primary-500">contact.foxitech@gmail.com</span>
+                Foxi Tech
+                <span className="block text-xs text-primary-500">contact@foxitech.in</span>
                 <span className="block text-xs text-primary-500">+91 72186 16190</span>
               </dd>
             </div>

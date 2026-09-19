@@ -2,7 +2,7 @@ import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 
 export const metadata = {
-  title: 'Careers | FOXI TECH',
+  title: 'Careers | Foxi Tech',
   description: 'Join our growing technical and creative agency in Pune. Build the future of local business automation.',
 };
 
@@ -45,7 +45,7 @@ export default function Careers() {
             Join the Team
           </span>
           <h1 className="font-display text-4xl lg:text-5xl font-bold tracking-tight">
-            Careers at FOXI TECH
+            Careers at Foxi Tech
           </h1>
           <p className="mt-4 text-primary-300 text-base lg:text-lg max-w-2xl leading-relaxed">
             Build high-performance web systems and AI tools for small businesses. Join a fast-paced agency committed to real digital growth.

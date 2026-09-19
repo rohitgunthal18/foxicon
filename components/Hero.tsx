@@ -39,7 +39,7 @@ export default function Hero() {
       >
         <Image
           src="/datacenter4.webp"
-          alt="Modern business website designed by FOXI TECH"
+          alt="Modern business website designed by Foxi Tech"
           fill
           priority
           className="object-cover object-center"
