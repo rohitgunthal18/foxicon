@@ -1,14 +1,17 @@
 import Navigation from '@/components/Navigation';
 import Hero from '@/components/Hero';
-import Services from '@/components/Services';
-import About from '@/components/About';
-import Process from '@/components/Process';
-import Pricing from '@/components/Pricing';
-import Testimonials from '@/components/Testimonials';
-import FAQ from '@/components/FAQ';
-import Contact from '@/components/Contact';
-import Footer from '@/components/Footer';
+import dynamic from 'next/dynamic';
 import { Metadata } from 'next';
+
+// Dynamically import below-the-fold components to reduce initial JS bundle and TBT
+const Services = dynamic(() => import('@/components/Services'));
+const About = dynamic(() => import('@/components/About'));
+const Process = dynamic(() => import('@/components/Process'));
+const Pricing = dynamic(() => import('@/components/Pricing'));
+const Testimonials = dynamic(() => import('@/components/Testimonials'));
+const FAQ = dynamic(() => import('@/components/FAQ'));
+const Contact = dynamic(() => import('@/components/Contact'));
+const Footer = dynamic(() => import('@/components/Footer'));
 
 export const metadata: Metadata = {
   title: 'Foxi Tech | Web Design, Local SEO & Software Agency Pune',

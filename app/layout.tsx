@@ -191,18 +191,33 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${inter.variable} ${spaceGrotesk.variable} scroll-smooth`}>
       <head>
-        {/* Google tag (gtag.js) */}
-        <Script
-          src="https://www.googletagmanager.com/gtag/js?id=G-2EJ6GNHG3T"
-          strategy="lazyOnload"
-        />
-        <Script id="google-analytics" strategy="lazyOnload">
+        {/* Google tag (gtag.js) - deferred to idle / user interaction to prevent main-thread blocking */}
+        <Script id="google-analytics" strategy="afterInteractive">
           {`
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
+            gtag('config', 'G-2EJ6GNHG3T', { send_page_view: true });
 
-            gtag('config', 'G-2EJ6GNHG3T');
+            (function() {
+              var loaded = false;
+              function loadGtm() {
+                if (loaded) return;
+                loaded = true;
+                var script = document.createElement('script');
+                script.src = 'https://www.googletagmanager.com/gtag/js?id=G-2EJ6GNHG3T';
+                script.async = true;
+                document.head.appendChild(script);
+              }
+              if ('requestIdleCallback' in window) {
+                requestIdleCallback(function() { setTimeout(loadGtm, 2500); });
+              } else {
+                setTimeout(loadGtm, 3500);
+              }
+              ['scroll', 'mousemove', 'touchstart', 'click'].forEach(function(e) {
+                window.addEventListener(e, loadGtm, { once: true, passive: true });
+              });
+            })();
           `}
         </Script>
         <script
