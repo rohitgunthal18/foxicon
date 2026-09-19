@@ -30,66 +30,46 @@ export default function Hero() {
         }}
       />
 
-      {/* Full-height hero image — 80% width on mobile as bg, 50% split on desktop */}
-      <div className="absolute top-0 right-0 bottom-0 w-[80%] lg:w-1/2 opacity-[0.08] lg:opacity-100 pointer-events-none lg:pointer-events-auto">
+      {/* Full-height hero image — hidden on mobile, 50% split on desktop */}
+      <div className="hidden lg:block absolute top-0 right-0 bottom-0 w-1/2 pointer-events-auto">
         <Image
           src="/datacenter4.webp"
           alt="Modern business website designed by Foxi Tech"
           fill
           priority
           className="object-cover object-center"
-          sizes="(max-width: 1024px) 80vw, 50vw"
+          sizes="50vw"
         />
         {/* Soft fade into white on the left/mobile edge */}
-        <div className="absolute inset-y-0 left-0 w-full lg:w-32 bg-gradient-to-r from-white via-white/90 lg:via-transparent to-transparent lg:to-transparent" />
+        <div className="absolute inset-y-0 left-0 w-32 bg-gradient-to-r from-white via-white/90 to-transparent" />
       </div>
 
       {/* Content — left half */}
       <div className="max-w-[1400px] mx-auto px-4 lg:px-12 pt-28 pb-16 lg:py-32 w-full relative z-10">
         <div className="max-w-xl">
           {/* Tag line */}
-          <motion.div
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2, ease: 'easeOut' }}
-            className="mb-6"
-          >
+          <div className="mb-6">
             <span className="inline-flex items-center gap-2 text-xs font-medium tracking-[0.15em] uppercase text-primary-500">
               <span className="w-5 h-[1px] bg-primary-400" />
               Web Design &amp; Digital Growth
             </span>
-          </motion.div>
+          </div>
 
           {/* Headline */}
-          <motion.h1
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.35, ease: 'easeOut' }}
-            className="font-display text-[clamp(2rem,5vw,4rem)] font-bold text-primary-950 leading-[1.12] tracking-tight"
-          >
+          <h1 className="font-display text-[clamp(2rem,5vw,4rem)] font-bold text-primary-950 leading-[1.12] tracking-tight">
             Get Your Business
             <br />
             <span className="text-primary-600">Found.</span> Trusted. Booked.
-          </motion.h1>
+          </h1>
 
           {/* Description */}
-          <motion.p
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.5, ease: 'easeOut' }}
-            className="mt-4 md:mt-6 text-base lg:text-lg text-primary-700 max-w-lg leading-relaxed font-normal"
-          >
+          <p className="mt-4 md:mt-6 text-base lg:text-lg text-primary-700 max-w-lg leading-relaxed font-normal">
             A website, Google Maps and Instagram — done for you.
             Ready in 5 days.
-          </motion.p>
+          </p>
 
           {/* CTA buttons */}
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.65, ease: 'easeOut' }}
-            className="mt-6 md:mt-10 flex flex-wrap items-center gap-4"
-          >
+          <div className="mt-6 md:mt-10 flex flex-wrap items-center gap-4">
             <button
               onClick={scrollToContact}
               className="group inline-flex items-center gap-3 bg-primary-950 text-white px-7 py-3.5 text-sm font-medium hover:bg-accent-600 transition-colors duration-300 cursor-pointer"
@@ -104,7 +84,7 @@ export default function Hero() {
             >
               View Pricing
             </button>
-          </motion.div>
+          </div>
 
           {/* Stats Marquee */}
           <div 
