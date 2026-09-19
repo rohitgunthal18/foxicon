@@ -8,6 +8,27 @@ import Testimonials from '@/components/Testimonials';
 import FAQ from '@/components/FAQ';
 import Contact from '@/components/Contact';
 import Footer from '@/components/Footer';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Foxi Tech | Web Design, Local SEO & Software Agency Pune',
+  description: 'Foxi Tech is Pune\'s premier digital marketing, custom software, and website design agency. High-converting Next.js websites, Google Maps #1 rankings, and zero monthly retainers.',
+  keywords: [
+    'Foxi Tech',
+    'foxitech pune',
+    'Foxi Tech Pune',
+    'foxitech',
+    'FoxiTech',
+    'web design agency Pune',
+    'digital marketing agency Pune',
+    'best web development services in Pune',
+    'local SEO services Pune',
+    'Foxi Tech agency'
+  ],
+  alternates: {
+    canonical: 'https://www.foxitech.in',
+  },
+};
 
 export default function Home() {
   const homeSchema = {

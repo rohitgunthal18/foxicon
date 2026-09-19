@@ -3,6 +3,7 @@
 import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
 import { useState, useEffect } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
+import Link from 'next/link';
 import Logo from './Logo';
 
 export default function Navigation() {
@@ -10,6 +11,8 @@ export default function Navigation() {
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
   const router = useRouter();
+  const isHomePage = pathname === '/';
+
   const { scrollY } = useScroll();
   const backgroundColor = useTransform(
     scrollY,
@@ -25,6 +28,20 @@ export default function Navigation() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // Handle smooth scroll when navigating to home page with an anchor hash
+  useEffect(() => {
+    if (pathname === '/' && typeof window !== 'undefined' && window.location.hash) {
+      const id = window.location.hash.replace('#', '');
+      const timer = setTimeout(() => {
+        const element = document.getElementById(id);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }, 150);
+      return () => clearTimeout(timer);
+    }
+  }, [pathname]);
+
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id);
     if (element) {
@@ -33,7 +50,7 @@ export default function Navigation() {
   };
 
   const handleNav = (id: string) => {
-    if (pathname === '/') {
+    if (isHomePage) {
       scrollToSection(id);
     } else {
       router.push(`/#${id}`);
@@ -42,9 +59,13 @@ export default function Navigation() {
 
   return (
     <motion.nav
-      style={{ backgroundColor }}
+      style={isHomePage ? { backgroundColor } : undefined}
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled || isOpen ? 'backdrop-blur-lg shadow-sm bg-white/95' : ''
+        !isHomePage
+          ? 'bg-white/95 backdrop-blur-lg shadow-sm border-b border-primary-100'
+          : isScrolled || isOpen
+          ? 'backdrop-blur-lg shadow-sm bg-white/95 border-b border-primary-100/60'
+          : ''
       }`}
     >
       <div className="max-w-[1400px] mx-auto px-4 lg:px-12">
@@ -54,13 +75,21 @@ export default function Navigation() {
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="cursor-pointer"
-            onClick={() => {
-              scrollToSection('hero');
-              setIsOpen(false);
-            }}
           >
-            <Logo />
+            <Link
+              href="/"
+              className="cursor-pointer block"
+              onClick={(e) => {
+                setIsOpen(false);
+                if (isHomePage) {
+                  e.preventDefault();
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                }
+              }}
+              aria-label="Foxi Tech Home"
+            >
+              <Logo />
+            </Link>
           </motion.div>
 
           {/* Navigation Links */}

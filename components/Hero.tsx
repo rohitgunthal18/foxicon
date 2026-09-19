@@ -30,18 +30,19 @@ export default function Hero() {
         }}
       />
 
-      {/* Full-height hero image — hidden on mobile, 50% split on desktop */}
-      <div className="hidden lg:block absolute top-0 right-0 bottom-0 w-1/2 pointer-events-auto">
+      {/* Full-height hero image — subtle atmospheric backdrop on mobile, 50% split on desktop */}
+      <div className="absolute top-0 right-0 bottom-0 w-full lg:w-1/2 opacity-20 lg:opacity-100 pointer-events-none lg:pointer-events-auto">
         <Image
           src="/datacenter4.webp"
           alt="Modern business website designed by Foxi Tech"
           fill
           priority
+          quality={80}
           className="object-cover object-center"
-          sizes="50vw"
+          sizes="(max-width: 1024px) 100vw, 50vw"
         />
         {/* Soft fade into white on the left/mobile edge */}
-        <div className="absolute inset-y-0 left-0 w-32 bg-gradient-to-r from-white via-white/90 to-transparent" />
+        <div className="absolute inset-y-0 left-0 w-full lg:w-32 bg-gradient-to-r from-white via-white/90 lg:via-transparent to-transparent lg:to-transparent" />
       </div>
 
       {/* Content — left half */}
